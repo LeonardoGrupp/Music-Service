@@ -40,11 +40,6 @@ public class MusicController {
         return ResponseEntity.ok(musicService.findMusicByGenre(genre));
     }
 
-    @GetMapping("/type/{type}")
-    public ResponseEntity<List<Music>> getAllMusicByType(@PathVariable("type") String type) {
-        return ResponseEntity.ok(musicService.findMusicByType(type));
-    }
-
     @GetMapping("/get/{url}")
     public ResponseEntity<Music> getMusicByUrl(@PathVariable("url") String url) {
         return ResponseEntity.ok(musicService.findMusicByUrl(url));

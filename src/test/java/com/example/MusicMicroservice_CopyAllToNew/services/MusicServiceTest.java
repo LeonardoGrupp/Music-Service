@@ -37,7 +37,7 @@ class MusicServiceTest {
     }
 
     @Test
-    void findAllMediaShouldReturnList() {
+    void findAllMusicShouldReturnList() {
         List<Music> allMusicList = Arrays.asList(
                 new Music("The Way I Am", "url1", "1999-01-01"), // The Marshall Mathers LP
                 new Music("Slim Shady", "url2", "1998-02-03"), // The Slim Shady LP
@@ -82,7 +82,7 @@ class MusicServiceTest {
     }
 
     @Test
-    void findMediaByAlbumShouldReturnList() {
+    void findMusicByAlbumShouldReturnList() {
         Artist avicii = new Artist("Avicii");
         Album stories = new Album("Stories");
         Genre genre = new Genre("EDM");
@@ -137,7 +137,7 @@ class MusicServiceTest {
     }
 
     @Test
-    void findMusicByIdShouldReturnMedia() {
+    void findMusicByIdShouldReturnMusic() {
         Music music = new Music("Clint Eastwood", "url1", "2001-03-05");
         music.setId(1);
 
@@ -170,7 +170,7 @@ class MusicServiceTest {
     }
 
     @Test
-    void createMusicShouldReturnMedia() {
+    void createMusicShouldReturnMusic() {
         // Arrange: Prepare mock data
         List<String> albumInputs = Arrays.asList("Album1", "Album2");
         List<String> artistInputs = Arrays.asList("Artist1", "Artist2");
@@ -201,8 +201,8 @@ class MusicServiceTest {
 
 
         // Mock the repository save
-        Music savedMedia = new Music("SongTitle", "url1", "2024-09-02", genres, Arrays.asList(albums), Arrays.asList(artists));
-        when(musicRepositoryMock.save(any(Music.class))).thenReturn(savedMedia);
+        Music savedMusic = new Music("SongTitle", "url1", "2024-09-02", genres, Arrays.asList(albums), Arrays.asList(artists));
+        when(musicRepositoryMock.save(any(Music.class))).thenReturn(savedMusic);
 
         // Act: Call the service method
         Music result = musicService.createMusic(musicDTO);
@@ -254,8 +254,8 @@ class MusicServiceTest {
         when(genreService.findAllGenres()).thenReturn(genres);
 
         // Mock the repository save
-        Music savedMedia = new Music("SongTitle", "url1", "2024-09-02", genres, Arrays.asList(new Album("Album1"), new Album("Album2")), Arrays.asList(new Artist("Artist1"), new Artist("Artist2")));
-        when(musicRepositoryMock.save(any(Music.class))).thenReturn(savedMedia);
+        Music savedMusic = new Music("SongTitle", "url1", "2024-09-02", genres, Arrays.asList(new Album("Album1"), new Album("Album2")), Arrays.asList(new Artist("Artist1"), new Artist("Artist2")));
+        when(musicRepositoryMock.save(any(Music.class))).thenReturn(savedMusic);
 
         // Act: Call the service method
         Music result = musicService.createMusic(musicDTO);
@@ -349,7 +349,7 @@ class MusicServiceTest {
     }
 
     @Test
-    void createMediaNoAlbumShouldReturnException() {
+    void createMusicNoAlbumShouldReturnException() {
         MusicDTO musicDTO = new MusicDTO("title", "url", "release");
         List<String> artistStringList = Arrays.asList("Rihanna", "Jay-Z");
         List<String> genreStringList = Arrays.asList("Pop", "RNB");
@@ -385,7 +385,7 @@ class MusicServiceTest {
     }
 
     @Test
-    void updateMusicShouldReturnMedia() {
+    void updateMusicShouldReturnMusic() {
         long musicId = 1;
         Music existingMusic = new Music("Umbrella", "url1", "2002-02-02");
         existingMusic.setId(musicId);

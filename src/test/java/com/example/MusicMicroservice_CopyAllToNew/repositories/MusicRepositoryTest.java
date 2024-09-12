@@ -36,11 +36,4 @@ class MusicRepositoryTest {
 
         assertEquals(music, music1, "ERROR: Music was not identical");
     }
-
-    @Test
-    void findMusicByType() {
-        List<Music> music = musicRepository.findMusicByType("music");
-
-        assertEquals(3, music.size(), "ERROR: Sizes was not identical");
-    }
 }

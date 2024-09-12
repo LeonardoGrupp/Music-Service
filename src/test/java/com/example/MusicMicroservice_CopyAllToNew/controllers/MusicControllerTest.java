@@ -131,7 +131,7 @@ class MusicControllerTest {
     }
 
     @Test
-    void createMusicShouldReturnMedia() {
+    void createMusicShouldReturnMusic() {
         List<String> albumInputs = Arrays.asList("The Slim Shady LP");
         List<String> artistInputs = Arrays.asList("Eminem");
         List<String> genreInputs = Arrays.asList("Hip-Hop");
@@ -285,7 +285,7 @@ class MusicControllerTest {
     }
 
     @Test
-    void updateMusicShouldReturnMedia() {
+    void updateMusicShouldReturnMusic() {
         List<Album> albumList = Arrays.asList(new Album("album1"));
         List<Artist> artistList = Arrays.asList(new Artist("artist1"));
         List<Genre> genreList = Arrays.asList(new Genre("Hip-Hop"));
@@ -298,10 +298,10 @@ class MusicControllerTest {
         List<String> genreInputs = Arrays.asList("other genre");
         MusicDTO newInfo = new MusicDTO("new title", "url2", "2024-09-02", genreInputs, albumInputs, artistInputs);
 
-        List<Album> newMediaAlbumList = Arrays.asList(new Album("other album"));
-        List<Artist> newMediaArtistList = Arrays.asList(new Artist("other artist"));
-        List<Genre> newMediaGenreList = Arrays.asList(new Genre("other genre"));
-        Music newMusicInfo = new Music("new title", "url2", "2024-09-02", newMediaGenreList, newMediaAlbumList, newMediaArtistList);
+        List<Album> newMusicAlbumList = Arrays.asList(new Album("other album"));
+        List<Artist> newMusicArtistList = Arrays.asList(new Artist("other artist"));
+        List<Genre> newMusicGenreList = Arrays.asList(new Genre("other genre"));
+        Music newMusicInfo = new Music("new title", "url2", "2024-09-02", newMusicGenreList, newMusicAlbumList, newMusicArtistList);
 
         when(musicServiceMock.updateMusic(musicId, newInfo)).thenReturn(newMusicInfo);
 
@@ -313,7 +313,7 @@ class MusicControllerTest {
     }
 
     @Test
-    void updateMediaInvalidIdShouldReturnException() {
+    void updateMusicInvalidIdShouldReturnException() {
         List<String> albumList = Arrays.asList("new album");
         List<String> artistList = Arrays.asList("new artist");
         List<String> genreList = Arrays.asList("new genre");
