@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface MusicRepository extends JpaRepository<Music, Long> {
     Music findMusicByUrl(String url);
-    List<Music> findMusicByType(String type);
 }

@@ -118,29 +118,6 @@ class MusicControllerTest {
     }
 
     @Test
-    void getAllMusicByTypeShouldReturnList() {
-        List<Album> albumList = Arrays.asList(new Album("The Marshall Mathers LP"));
-        List<Artist> artistList = Arrays.asList(new Artist("Eminem"));
-        List<Genre> genreList = Arrays.asList(new Genre("Hip-Hop"));
-        List<Music> typeMusic = Arrays.asList(
-                new Music("title1", "url1", "releasedate1", genreList, albumList, artistList),
-                new Music("title2", "url2", "releasedate2", genreList, albumList, artistList),
-                new Music("title3", "url3", "releasedate3", genreList, albumList, artistList),
-                new Music("title4", "url4", "releasedate4", genreList, albumList, artistList)
-        );
-
-        when(musicServiceMock.findMusicByType("music")).thenReturn(typeMusic);
-
-        ResponseEntity<List<Music>> response = musicController.getAllMusicByType("music");
-
-        assertEquals(typeMusic, response.getBody(), "ERROR: Lists was not identical");
-        assertEquals(typeMusic.size(), response.getBody().size(), "ERROR: Sizes was not identical");
-        assertEquals("music", response.getBody().get(0).getType(), "ERROR: Types was not identical");
-
-        verify(musicServiceMock).findMusicByType("music");
-    }
-
-    @Test
     void getMusicByUrlShouldReturnMusic() {
         Music music = new Music("title", "url", "releaseDate");
 

@@ -82,11 +82,6 @@ public class MusicService implements MusicServiceInterface {
     }
 
     @Override
-    public List<Music> findMusicByType(String type) {
-        return musicRepository.findMusicByType(type);
-    }
-
-    @Override
     public Music findMusicByUrl(String url) {
         return musicRepository.findMusicByUrl(url);
     }

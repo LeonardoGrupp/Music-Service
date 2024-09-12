@@ -14,7 +14,6 @@ public interface MusicServiceInterface {
     List<Music> findMusicByArtist(String artistName);
     List<Music> findMusicByAlbum(String albumName);
     List<Music> findMusicByGenre(String genreName);
-    List<Music> findMusicByType(String type);
     Music findMusicByUrl(String url);
     Music findMusicById(long id);
     Music createMusic(MusicDTO musicDTO);

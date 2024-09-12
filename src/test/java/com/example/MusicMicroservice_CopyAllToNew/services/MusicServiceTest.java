@@ -124,23 +124,6 @@ class MusicServiceTest {
     }
 
     @Test
-    void findMusicByTypeShouldReturnMusic() {
-        List<Music> musicTypeList = Arrays.asList(
-                new Music("Umbrella", "url", "releasedate"),
-                new Music("Forever Young", "url2", "release2")
-        );
-
-        when(musicRepositoryMock.findMusicByType("music")).thenReturn(musicTypeList);
-
-        List<Music> result = musicService.findMusicByType("music");
-
-        assertEquals(musicTypeList, result, "ERROR: Lists was not identical");
-        assertEquals("music", result.get(0).getType(), "ERROR Types was not identical");
-
-        verify(musicRepositoryMock).findMusicByType("music");
-    }
-
-    @Test
     void findMusicByUrlShouldReturnMusic() {
         Music music = new Music("titel", "url", "releasedate");
 
