@@ -1,5 +1,5 @@
 -- INSERT Genres
-INSERT INTO genres (id, genre, total_likes, total_plays)
+INSERT INTO music_genres (id, genre, total_likes, total_plays)
 VALUES
     (1, 'Rock', 0, 0),
     (2, 'Pop', 0, 0),
@@ -11,7 +11,7 @@ VALUES
     (8, 'Heavy Metal', 0, 0)
 ;
 
-INSERT INTO music (id, type, title, url, release_date, play_counter, likes, dis_likes)
+INSERT INTO songs (id, type, title, url, release_date, play_counter, likes, dis_likes)
 VALUES
     -- MUSIC
     (1, 'Music', 'Take This Life', 'url1', '2006-02-07', 0, 0, 0),
@@ -56,7 +56,7 @@ VALUES
     (38, 'Music', 'Good Girl Gone Bad', 'url38', '2007-05-31', 0, 0, 0)
 ;
 
-INSERT INTO music_genres (music_id, genre_id)
+INSERT INTO songs_genres (songs_id, genre_id)
 VALUES
     -- MUSIC
     -- in flames to metal
@@ -70,7 +70,7 @@ VALUES
 ;
 
 -- INSERT Artists
-INSERT INTO music_artists (music_id, id, name)
+INSERT INTO songs_artists (songs_id, id, name)
 VALUES
     -- MUSIC
     --Come Clarity
@@ -98,7 +98,7 @@ VALUES
 ;
 
 -- INSERT ALbums
-INSERT INTO music_albums (music_id, id, name)
+INSERT INTO songs_albums (songs_id, id, name)
 VALUES
     -- MUSIC
     -- In Flames

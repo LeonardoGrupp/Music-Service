@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "music")
+@Table(name = "songs")
 public class Music {
 
     @Id
@@ -28,23 +28,23 @@ public class Music {
 
     @ManyToMany
     @JoinTable(
-            name = "music_genres", // Name of the join table
-            joinColumns = @JoinColumn(name = "music_id"), // Foreign key in join table pointing to 'music' table
+            name = "songs_genres", // Name of the join table
+            joinColumns = @JoinColumn(name = "songs_id"), // Foreign key in join table pointing to 'music' table
             inverseJoinColumns = @JoinColumn(name = "genre_id") // Foreign key in join table pointing to 'genres' table
     )
     private List<Genre> genres;
 
     @ElementCollection
     @CollectionTable(
-            name = "music_albums",
-            joinColumns = @JoinColumn(name = "music_id")
+            name = "songs_albums",
+            joinColumns = @JoinColumn(name = "songs_id")
     )
     private List<Album> albums;
 
     @ElementCollection
     @CollectionTable(
-            name = "music_artists",
-            joinColumns = @JoinColumn(name = "music_id")
+            name = "songs_artists",
+            joinColumns = @JoinColumn(name = "songs_id")
     )
     private List<Artist> artists;
 
