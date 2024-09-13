@@ -1,6 +1,8 @@
 package com.example.MusicMicroservice_CopyAllToNew.controllers;
 
 import com.example.MusicMicroservice_CopyAllToNew.dto.MusicDTO;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Album;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Artist;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Genre;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Music;
 import com.example.MusicMicroservice_CopyAllToNew.services.MusicService;
@@ -9,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
-import vo.Album;
-import vo.Artist;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +49,7 @@ class MusicControllerTest {
 
     @Test
     void getAllMusicForArtistShouldReturnList() {
-        List<Album> albumList = Arrays.asList(new Album("The Marshall Mathers LP"));
+        List<Album> albumList = Arrays.asList(new Album("The Marshall Mathers LP", "1999"));
         List<Artist> artistList = Arrays.asList(new Artist("Eminem"));
         List<Genre> genreList = Arrays.asList(new Genre("Hip-Hop"));
         List<Music> artistMusic = Arrays.asList(
@@ -72,7 +72,7 @@ class MusicControllerTest {
 
     @Test
     void getAllMusicForAlbumShouldReturnList() {
-        List<Album> albumList = Arrays.asList(new Album("The Marshall Mathers LP"));
+        List<Album> albumList = Arrays.asList(new Album("The Marshall Mathers LP", "1999"));
         List<Artist> artistList = Arrays.asList(new Artist("Eminem"));
         List<Genre> genreList = Arrays.asList(new Genre("Hip-Hop"));
         List<Music> albumMusic = Arrays.asList(
@@ -95,7 +95,7 @@ class MusicControllerTest {
 
     @Test
     void getAllMusicForGenreShouldReturnList() {
-        List<Album> albumList = Arrays.asList(new Album("The Marshall Mathers LP"));
+        List<Album> albumList = Arrays.asList(new Album("The Marshall Mathers LP", "1999"));
         List<Artist> artistList = Arrays.asList(new Artist("Eminem"));
         List<Genre> genreList = Arrays.asList(new Genre("Hip-Hop"));
         List<Music> genreMusic = Arrays.asList(
@@ -136,7 +136,7 @@ class MusicControllerTest {
         List<String> genreInputs = Arrays.asList("Hip-Hop");
         MusicDTO musicDTO = new MusicDTO("The Real Slim Shady", "url1", "2000-02-22", genreInputs, albumInputs, artistInputs);
 
-        List<Album> albumList = Arrays.asList(new Album("The Slim Shady LP"));
+        List<Album> albumList = Arrays.asList(new Album("The Slim Shady LP", "1999"));
         List<Artist> artistList = Arrays.asList(new Artist("Eminem"));
         List<Genre> genreList = Arrays.asList(new Genre("Hip-Hop"));
         Music musicToBeCreated = new Music(musicDTO.getTitle(), musicDTO.getUrl(), musicDTO.getReleaseDate(), genreList, albumList, artistList);
@@ -285,7 +285,7 @@ class MusicControllerTest {
 
     @Test
     void updateMusicShouldReturnMusic() {
-        List<Album> albumList = Arrays.asList(new Album("album1"));
+        List<Album> albumList = Arrays.asList(new Album("album1", "1999"));
         List<Artist> artistList = Arrays.asList(new Artist("artist1"));
         List<Genre> genreList = Arrays.asList(new Genre("Hip-Hop"));
         long musicId = 1;
@@ -297,7 +297,7 @@ class MusicControllerTest {
         List<String> genreInputs = Arrays.asList("other genre");
         MusicDTO newInfo = new MusicDTO("new title", "url2", "2024-09-02", genreInputs, albumInputs, artistInputs);
 
-        List<Album> newMusicAlbumList = Arrays.asList(new Album("other album"));
+        List<Album> newMusicAlbumList = Arrays.asList(new Album("other album", "1999"));
         List<Artist> newMusicArtistList = Arrays.asList(new Artist("other artist"));
         List<Genre> newMusicGenreList = Arrays.asList(new Genre("other genre"));
         Music newMusicInfo = new Music("new title", "url2", "2024-09-02", newMusicGenreList, newMusicAlbumList, newMusicArtistList);

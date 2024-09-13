@@ -1,6 +1,8 @@
 package com.example.MusicMicroservice_CopyAllToNew.services;
 
 import com.example.MusicMicroservice_CopyAllToNew.dto.MusicDTO;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Album;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Artist;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Genre;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Music;
 import com.example.MusicMicroservice_CopyAllToNew.repositories.MusicRepository;
@@ -10,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-import vo.Album;
-import vo.Artist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +21,17 @@ import java.util.Optional;
 public class MusicService implements MusicServiceInterface {
 
     private MusicRepository musicRepository;
-    private RestTemplate restTemplate;
     private GenreService genreService;
+    private AlbumService albumService;
+    private ArtistService artistService;
+
 
     @Autowired
-    public MusicService(MusicRepository musicRepository, RestTemplate restTemplate, GenreService genreService) {
+    public MusicService(MusicRepository musicRepository, GenreService genreService, AlbumService albumService, ArtistService artistService) {
         this.musicRepository = musicRepository;
-        this.restTemplate = restTemplate;
         this.genreService = genreService;
+        this.albumService = albumService;
+        this.artistService = artistService;
     }
 
     @Override
@@ -130,24 +133,22 @@ public class MusicService implements MusicServiceInterface {
 
         // Check to see if album exist
         for (String albumName : musicDTO.getAlbumInputs()) {
-            ResponseEntity<Boolean> albumNameResponse = restTemplate.getForEntity("lb://album-service/album/exists/" + albumName, Boolean.class);
-
-            Boolean albumExist = albumNameResponse.getBody();
+            Boolean albumExist = albumService.checkIfAlbumExistsByName(albumName);
 
             if (!albumExist) {
-                ResponseEntity<Album> createAlbum = restTemplate.postForEntity("lb://album-service/album/createAlbum", new Album(albumName), Album.class);
+                Album album = new Album(albumName, "");
+                albumService.createAlbum(album);
             }
 
         }
 
         // Check to see if artist exist
         for (String artistName : musicDTO.getArtistInputs()) {
-            ResponseEntity<Boolean> artistNameResponse = restTemplate.getForEntity("lb://artist-service/artist/exists/" + artistName, Boolean.class);
-
-            Boolean artistExist = artistNameResponse.getBody();
+            Boolean artistExist = artistService.checkIfArtistExistByName(artistName);
 
             if (!artistExist) {
-                ResponseEntity<Artist> createArtist = restTemplate.postForEntity("lb://artist-service/artist/createArtist", new Artist(artistName), Artist.class);
+                Artist artist = new Artist(artistName);
+                artistService.createArtist(artist);
             }
         }
 
@@ -176,12 +177,12 @@ public class MusicService implements MusicServiceInterface {
 
     @Override
     public List<Album> getAllAlbums(MusicDTO musicDTO) {
-        ResponseEntity<Album[]> allAlbumsArray = restTemplate.getForEntity("lb://album-service/album/getAllAlbums", Album[].class);
+        List<Album> allAlbums = albumService.getAllAlbums();
 
         List<Album> albumList = new ArrayList<>();
 
-        if (allAlbumsArray != null) {
-            for (Album album : allAlbumsArray.getBody()) {
+        if (allAlbums != null) {
+            for (Album album : allAlbums) {
                 for (String albumName : musicDTO.getAlbumInputs()) {
                     if (albumName.toLowerCase().equals(album.getName().toLowerCase())) {
                         albumList.add(album);
@@ -195,10 +196,11 @@ public class MusicService implements MusicServiceInterface {
 
     @Override
     public List<Artist> getAllArtists(MusicDTO musicDTO) {
-        ResponseEntity<Artist[]> allArtistsArray = restTemplate.getForEntity("lb://artist-service/artist/getAllArtists", Artist[].class);
+        List<Artist> allArtists = artistService.getAllArtists();
+
         List<Artist> artistList = new ArrayList<>();
-        if (allArtistsArray != null) {
-            for (Artist artist : allArtistsArray.getBody()) {
+        if (allArtists != null) {
+            for (Artist artist : allArtists) {
                 for (String artistName : musicDTO.getArtistInputs()) {
                     if (artistName.toLowerCase().equals(artist.getName().toLowerCase())) {
                         artistList.add(artist);

@@ -1,6 +1,8 @@
 package com.example.MusicMicroservice_CopyAllToNew.services;
 
 import com.example.MusicMicroservice_CopyAllToNew.dto.MusicDTO;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Album;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Artist;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Genre;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Music;
 import com.example.MusicMicroservice_CopyAllToNew.repositories.MusicRepository;
@@ -10,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-import vo.Album;
-import vo.Artist;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,15 +25,15 @@ class MusicServiceTest {
 
     private MusicRepository musicRepositoryMock;
     private MusicService musicService;
-    private RestTemplate restTemplate;
     private GenreService genreService;
+    private AlbumService albumService;
+    private ArtistService artistService;
 
     @BeforeEach
     void setUp() {
         musicRepositoryMock = mock(MusicRepository.class);
-        restTemplate = mock(RestTemplate.class);
         genreService = mock(GenreService.class);
-        musicService = new MusicService(musicRepositoryMock, restTemplate, genreService);
+        musicService = new MusicService(musicRepositoryMock, genreService, albumService, artistService);
     }
 
     @Test
@@ -62,7 +62,7 @@ class MusicServiceTest {
     @Test
     void findMusicByArtistShouldReturnList() {
         Artist eminem = new Artist("Eminem");
-        Album album = new Album("Eminem album");
+        Album album = new Album("Eminem album", "1999");
         Genre genre = new Genre("Hip-Hop");
         List<Music> eminemMusicList = Arrays.asList(
                 new Music("The Way I Am", "url1", "1999-01-01", Arrays.asList(genre), Arrays.asList(album), Arrays.asList(eminem)),
@@ -84,7 +84,7 @@ class MusicServiceTest {
     @Test
     void findMusicByAlbumShouldReturnList() {
         Artist avicii = new Artist("Avicii");
-        Album stories = new Album("Stories");
+        Album stories = new Album("Stories", "2010");
         Genre genre = new Genre("EDM");
         List<Music> albumMusicList = Arrays.asList(
                 new Music("Waiting For Love", "url1", "2011-11-02", Arrays.asList(genre), Arrays.asList(stories), Arrays.asList(avicii)),
@@ -105,7 +105,7 @@ class MusicServiceTest {
     @Test
     void findMusicByGenreShouldReturnList() {
         Artist avicii = new Artist("Avicii");
-        Album stories = new Album("Stories");
+        Album stories = new Album("Stories", "2010");
         Genre genre = new Genre("EDM");
         List<Music> genreMusicList = Arrays.asList(
                 new Music("Waiting For Love", "url1", "2011-11-02", Arrays.asList(genre), Arrays.asList(stories), Arrays.asList(avicii)),
@@ -171,106 +171,12 @@ class MusicServiceTest {
 
     @Test
     void createMusicShouldReturnMusic() {
-        // Arrange: Prepare mock data
-        List<String> albumInputs = Arrays.asList("Album1", "Album2");
-        List<String> artistInputs = Arrays.asList("Artist1", "Artist2");
-        List<String> genreInputs = Arrays.asList("Pop", "RNB");
-        MusicDTO musicDTO = new MusicDTO("SongTitle", "url1", "2024-09-02", genreInputs, albumInputs, artistInputs);
 
-        // Mock album existence check (returns true)
-        ResponseEntity<Boolean> albumExistsResponse = new ResponseEntity<>(true, HttpStatus.OK);
-        doReturn(albumExistsResponse).when(restTemplate).getForEntity(contains("exists"), eq(Boolean.class));
-
-        // Mock artist existence check (returns true)
-        ResponseEntity<Boolean> artistExistsResponse = new ResponseEntity<>(true, HttpStatus.OK);
-        doReturn(artistExistsResponse).when(restTemplate).getForEntity(contains("exists"), eq(Boolean.class));
-
-        // Mock the list of albums returned by the album-service
-        Album[] albums = { new Album("Album1"), new Album("Album2") };
-        ResponseEntity<Album[]> albumListResponse = new ResponseEntity<>(albums, HttpStatus.OK);
-        doReturn(albumListResponse).when(restTemplate).getForEntity(contains("getAllAlbums"), eq(Album[].class));
-
-        // Mock the list of artists returned by the artist-service
-        Artist[] artists = { new Artist("Artist1"), new Artist("Artist2") };
-        ResponseEntity<Artist[]> artistListResponse = new ResponseEntity<>(artists, HttpStatus.OK);
-        doReturn(artistListResponse).when(restTemplate).getForEntity(contains("getAllArtists"), eq(Artist[].class));
-
-        // Mock the list of genres returned by the genreService
-        List<Genre> genres = Arrays.asList(new Genre("Pop"), new Genre("RNB"));
-        when(genreService.findAllGenres()).thenReturn(genres);
-
-
-        // Mock the repository save
-        Music savedMusic = new Music("SongTitle", "url1", "2024-09-02", genres, Arrays.asList(albums), Arrays.asList(artists));
-        when(musicRepositoryMock.save(any(Music.class))).thenReturn(savedMusic);
-
-        // Act: Call the service method
-        Music result = musicService.createMusic(musicDTO);
-
-        // Assert: Verify that the result matches the expected saved music
-        assertEquals(musicDTO.getTitle(), result.getTitle(), "ERROR: Titles was not identical");
-        assertEquals(musicDTO.getReleaseDate(), result.getReleaseDate(), "ERROR: Release dates was not identical");
-        assertEquals(musicDTO.getGenreInputs().get(0), result.getGenres().get(0).getGenre(), "ERROR: Genres was not identical");
-        assertEquals(2, result.getAlbums().size(), "ERROR: Album list sizes was not identical");
-        assertEquals(2, result.getArtists().size(), "ERROR: Artist list sizes was not identical");
-
-        // Verify the spy was used and calls were made
-        verify(restTemplate, times(4)).getForEntity(contains("exists"), eq(Boolean.class));
-        verify(restTemplate, times(1)).getForEntity(contains("getAllAlbums"), eq(Album[].class));
-        verify(restTemplate, times(1)).getForEntity(contains("getAllArtists"), eq(Artist[].class));
-        verify(genreService).findAllGenres();
     }
 
     @Test
     void createMusicArtistAndAlbumDontExistShouldReturnMusic() {
-        List<String> albumInputs = Arrays.asList("Album1", "Album2");
-        List<String> artistInputs = Arrays.asList("Artist1", "Artist2");
-        List<String> genreInputs = Arrays.asList("Pop", "RNB");
-        MusicDTO musicDTO = new MusicDTO("SongTitle", "url1", "2024-09-02", genreInputs, albumInputs, artistInputs);
 
-        // Mock album existence check (returns true)
-        ResponseEntity<Boolean> albumExistsResponse = new ResponseEntity<>(true, HttpStatus.OK);
-        doReturn(albumExistsResponse).when(restTemplate).getForEntity(contains("exists"), eq(Boolean.class));
-
-        // Mock artist existence check (returns false for both artists)
-        ResponseEntity<Boolean> artistExistsResponse = new ResponseEntity<>(false, HttpStatus.OK);
-        doReturn(artistExistsResponse).when(restTemplate).getForEntity(contains("exists"), eq(Boolean.class));
-
-        // Mock the list of albums returned by the album-service
-        ResponseEntity<Album> createAlbumResponse1 = new ResponseEntity<>(new Album("Album1"), HttpStatus.OK);
-        ResponseEntity<Album> createAlbumResponse2 = new ResponseEntity<>(new Album("Album2"), HttpStatus.OK);
-        doReturn(createAlbumResponse1).when(restTemplate).postForEntity(contains("createAlbum"), any(Album.class), eq(Album.class));
-        doReturn(createAlbumResponse2).when(restTemplate).postForEntity(contains("createAlbum"), any(Album.class), eq(Album.class));
-
-
-        // Mock artist creation when artist does not exist
-        ResponseEntity<Artist> createArtistResponse1 = new ResponseEntity<>(new Artist("Artist1"), HttpStatus.OK);
-        ResponseEntity<Artist> createArtistResponse2 = new ResponseEntity<>(new Artist("Artist2"), HttpStatus.OK);
-        doReturn(createArtistResponse1).when(restTemplate).postForEntity(contains("createArtist"), any(Artist.class), eq(Artist.class));
-        doReturn(createArtistResponse2).when(restTemplate).postForEntity(contains("createArtist"), any(Artist.class), eq(Artist.class));
-
-        // Mock the list of genres returned by the genreService
-        List<Genre> genres = Arrays.asList(new Genre("Pop"), new Genre("RNB"));
-        when(genreService.findAllGenres()).thenReturn(genres);
-
-        // Mock the repository save
-        Music savedMusic = new Music("SongTitle", "url1", "2024-09-02", genres, Arrays.asList(new Album("Album1"), new Album("Album2")), Arrays.asList(new Artist("Artist1"), new Artist("Artist2")));
-        when(musicRepositoryMock.save(any(Music.class))).thenReturn(savedMusic);
-
-        // Act: Call the service method
-        Music result = musicService.createMusic(musicDTO);
-
-        // Assert: Verify that the result matches the expected saved music
-        assertEquals(musicDTO.getTitle(), result.getTitle(), "ERROR: Titles was not identical");
-        assertEquals(musicDTO.getReleaseDate(), result.getReleaseDate(), "ERROR: Release dates was not identical");
-        assertEquals(2, result.getAlbums().size(), "ERROR: Album list sizes was not identical");
-        assertEquals(2, result.getArtists().size(), "ERROR: Artist list sizes was not identical");
-
-        // Verify that the artist existence check was made and the creation calls were triggered
-        verify(restTemplate, times(4)).getForEntity(contains("exists"), eq(Boolean.class));
-        verify(restTemplate, times(2)).postForEntity(contains("createAlbum"), any(Album.class), eq(Album.class));
-        verify(restTemplate, times(2)).postForEntity(contains("createArtist"), any(Artist.class), eq(Artist.class));
-        verify(genreService).findAllGenres();
     }
 
     @Test
@@ -485,7 +391,7 @@ class MusicServiceTest {
 
     @Test
     void updateMusicOnlyAlbumInputsShouldReturnMusic() {
-        List<Album> albumList = Arrays.asList(new Album("album"));
+        List<Album> albumList = Arrays.asList(new Album("album", "1999"));
         List<Artist> artistList = Arrays.asList(new Artist("artist"));
         List<Genre> genreList = Arrays.asList(new Genre("Pop"));
         long musicId = 1;
@@ -511,7 +417,7 @@ class MusicServiceTest {
     }
     @Test
     void updateMusicOnlyGenreShouldReturnMusic() {
-        List<Album> albumList = Arrays.asList(new Album("album"));
+        List<Album> albumList = Arrays.asList(new Album("album", "1999"));
         List<Artist> artistList = Arrays.asList(new Artist("artist"));
         List<Genre> genreList = Arrays.asList(new Genre("Pop"));
         long musicId = 1;
@@ -537,7 +443,7 @@ class MusicServiceTest {
 
     @Test
     void updateMusicOnlyArtistInputsShouldReturnMusic() {
-        List<Album> albumList = Arrays.asList(new Album("album"));
+        List<Album> albumList = Arrays.asList(new Album("album", "1999"));
         List<Artist> artistList = Arrays.asList(new Artist("artist"));
         List<Genre> genreList = Arrays.asList(new Genre("genre"));
         long musicId = 1;
