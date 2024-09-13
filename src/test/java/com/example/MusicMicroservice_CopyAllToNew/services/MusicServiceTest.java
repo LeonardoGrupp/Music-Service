@@ -666,4 +666,30 @@ class MusicServiceTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "ERROR: Status Codes was not identical");
     }
 
+    @Test
+    void checkIfMusicExistByUrlShouldReturnTrue() {
+        String url = "url";
+        Music music = new Music("title", "url", "release");
+
+        when(musicRepositoryMock.findMusicByUrl(url)).thenReturn(music);
+
+        Boolean response = musicService.checkIfMusicExistByUrl(url);
+
+        assertTrue(response, "ERROR: Response was false");
+
+        verify(musicRepositoryMock).findMusicByUrl(url);
+    }
+
+    @Test
+    void checkIfMusicExistByUrlShouldReturnFalse() {
+        String url = "url";
+
+        when(musicRepositoryMock.findMusicByUrl(url)).thenReturn(null);
+
+        Boolean response = musicService.checkIfMusicExistByUrl(url);
+
+        assertFalse(response, "ERROR: Response was true");
+
+        verify(musicRepositoryMock).findMusicByUrl(url);
+    }
 }

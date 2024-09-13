@@ -74,4 +74,9 @@ public class MusicController {
     public ResponseEntity<String> disLikeMusic(@PathVariable("url") String url) {
         return ResponseEntity.ok(musicService.disLikeMusic(url));
     }
+
+    @GetMapping("/exists/{url}")
+    public ResponseEntity<Boolean> musicExist(@PathVariable("url") String url) {
+        return ResponseEntity.ok(musicService.checkIfMusicExistByUrl(url));
+    }
 }

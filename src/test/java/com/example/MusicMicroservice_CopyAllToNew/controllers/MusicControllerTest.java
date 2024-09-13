@@ -15,8 +15,7 @@ import vo.Artist;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MusicControllerTest {
@@ -451,5 +450,31 @@ class MusicControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "ERROR: Status Codes was not identical");
 
         verify(musicServiceMock).disLikeMusic(url);
+    }
+
+    @Test
+    void musicExistShouldReturnTrue() {
+        String url = "url";
+
+        when(musicServiceMock.checkIfMusicExistByUrl(url)).thenReturn(true);
+
+        ResponseEntity<Boolean> response = musicController.musicExist(url);
+
+        assertTrue(response.getBody(), "ERROR: Response was false");
+
+        verify(musicServiceMock).checkIfMusicExistByUrl(url);
+    }
+
+    @Test
+    void musicExistShouldReturnFalse() {
+        String url = "url";
+
+        when(musicServiceMock.checkIfMusicExistByUrl(url)).thenReturn(false);
+
+        ResponseEntity<Boolean> response = musicController.musicExist(url);
+
+        assertFalse(response.getBody(), "ERROR: Response was true");
+
+        verify(musicServiceMock).checkIfMusicExistByUrl(url);
     }
 }

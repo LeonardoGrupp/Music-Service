@@ -301,4 +301,11 @@ public class MusicService implements MusicServiceInterface {
 
         return "Disliked " + musicToDisLike.getType() + ": " + musicToDisLike.getTitle();
     }
+
+    @Override
+    public Boolean checkIfMusicExistByUrl(String url) {
+        Music music = musicRepository.findMusicByUrl(url);
+
+        return music != null;
+    }
 }

@@ -25,4 +25,5 @@ public interface MusicServiceInterface {
     String playMusic(String url);
     String likeMusic(String url);
     String disLikeMusic(String url);
+    Boolean checkIfMusicExistByUrl(String url);
 }
