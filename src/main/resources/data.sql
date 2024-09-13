@@ -1,4 +1,4 @@
-INSERT INTO artists (id, name)
+INSERT INTO music_artists (id, name)
 VALUES
     -- MUSIC
     (1, 'In Flames'),
@@ -11,7 +11,7 @@ VALUES
     (8, 'Ne-Yo')
 ;
 
-INSERT INTO albums (id, album_name, release_date)
+INSERT INTO music_albums (id, album_name, release_date)
 VALUES
     -- Music
     (1, 'Come Clarity', '2006-02-07'),
