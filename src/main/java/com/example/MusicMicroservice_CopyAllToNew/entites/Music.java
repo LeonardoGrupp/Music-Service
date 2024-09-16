@@ -1,8 +1,6 @@
 package com.example.MusicMicroservice_CopyAllToNew.entites;
 
 import jakarta.persistence.*;
-import vo.Album;
-import vo.Artist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,17 +32,19 @@ public class Music {
     )
     private List<Genre> genres;
 
-    @ElementCollection
-    @CollectionTable(
+    @ManyToMany
+    @JoinTable(
             name = "songs_albums",
-            joinColumns = @JoinColumn(name = "songs_id")
+            joinColumns = @JoinColumn(name = "songs_id"),
+            inverseJoinColumns = @JoinColumn(name = "album_id")
     )
     private List<Album> albums;
 
-    @ElementCollection
-    @CollectionTable(
+    @ManyToMany
+    @JoinTable(
             name = "songs_artists",
-            joinColumns = @JoinColumn(name = "songs_id")
+            joinColumns = @JoinColumn(name = "songs_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id")
     )
     private List<Artist> artists;
 

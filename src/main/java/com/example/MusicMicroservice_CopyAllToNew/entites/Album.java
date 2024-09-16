@@ -1,11 +1,14 @@
-package vo;
+package com.example.MusicMicroservice_CopyAllToNew.entites;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 
-@Embeddable
+@Entity
 public class Album {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "album_name")
     private String name;
 
     public Album() {

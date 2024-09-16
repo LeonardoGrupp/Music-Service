@@ -4,13 +4,13 @@ import com.example.MusicMicroservice_CopyAllToNew.dto.MusicDTO;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Genre;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Music;
 import com.example.MusicMicroservice_CopyAllToNew.services.MusicService;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Album;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Artist;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
-import vo.Album;
-import vo.Artist;
 
 import java.util.Arrays;
 import java.util.List;
