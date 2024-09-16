@@ -1,10 +1,15 @@
-package vo;
+package com.example.MusicMicroservice_CopyAllToNew.entites;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Embeddable
+@Entity
 public class Artist {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
 
@@ -17,10 +22,6 @@ public class Artist {
 
     public Artist(long id, String name) {
         this.id = id;
-        this.name = name;
-    }
-
-    public Artist(String name, String albumIdsString) {
         this.name = name;
     }
 

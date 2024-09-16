@@ -1,10 +1,10 @@
 package com.example.MusicMicroservice_CopyAllToNew.services;
 
 import com.example.MusicMicroservice_CopyAllToNew.dto.MusicDTO;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Album;
+import com.example.MusicMicroservice_CopyAllToNew.entites.Artist;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Genre;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Music;
-import vo.Album;
-import vo.Artist;
 
 import java.util.List;
 
