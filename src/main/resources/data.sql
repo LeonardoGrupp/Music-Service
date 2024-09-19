@@ -6,17 +6,18 @@
 -- DROP TABLE IF EXISTS music_genres;
 
 
--- CREATE TABLE IF NOT EXISTS songs (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     type VARCHAR(255) NOT NULL,
---     title VARCHAR(250) NOT NULL,
---     url VARCHAR(250) NOT NULL,
---     release_date DATE NOT NULL,
---     play_counter INT DEFAULT 0,
---     likes INT DEFAULT 0,
---     dis_likes INT DEFAULT 0
---     )
--- ;
+CREATE TABLE IF NOT EXISTS songs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type VARCHAR(255) NOT NULL,
+    title VARCHAR(250) NOT NULL,
+    url VARCHAR(250) NOT NULL,
+    release_date DATE NOT NULL,
+    play_counter INT DEFAULT 0,
+    likes INT DEFAULT 0,
+    dis_likes INT DEFAULT 0
+    )
+;
+
 -- CREATE TABLE IF NOT EXISTS music_genres (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
 --     genre VARCHAR(255) NOT NULL,
@@ -24,7 +25,15 @@
 --     total_plays INT DEFAULT 0
 --     )
 -- ;
---
+
+CREATE TABLE IF NOT EXISTS genres (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    genre VARCHAR(255) NOT NULL,
+    total_likes INT DEFAULT 0,
+    total_plays INT DEFAULT 0
+    )
+;
+
 -- CREATE TABLE IF NOT EXISTS songs_genres (
 --     songs_id INT,
 --     genre_id INT,
@@ -32,35 +41,53 @@
 --     FOREIGN KEY(genre_id) REFERENCES music_genres(id)
 --     )
 -- ;
---
--- CREATE TABLE IF NOT EXISTS songs_artists (
---     songs_id INT,
---     artist_id INT,
---     FOREIGN KEY(songs_id) REFERENCES songs(id),
---     FOREIGN KEY(artist_id) REFERENCES artist(id)
---     )
+
+CREATE TABLE IF NOT EXISTS songs_genres (
+    songs_id INT,
+    genre_id INT,
+    FOREIGN KEY(songs_id) REFERENCES songs(id),
+    FOREIGN KEY(genre_id) REFERENCES genres(id)
+    )
+;
+
+CREATE TABLE IF NOT EXISTS songs_artists (
+    songs_id INT,
+    artist_id INT,
+    FOREIGN KEY(songs_id) REFERENCES songs(id),
+    FOREIGN KEY(artist_id) REFERENCES artist(id)
+    )
+;
+
+CREATE TABLE IF NOT EXISTS songs_albums (
+    songs_id INT,
+    album_id INT,
+    FOREIGN KEY(songs_id) REFERENCES songs(id),
+    FOREIGN KEY(album_id) REFERENCES album(id)
+    )
+;
+
+-- INSERT INTO music_genres (id, genre, total_likes, total_plays)
+-- VALUES
+--        (1, 'Rock', 0, 0),
+--        (2, 'Pop', 0, 0),
+--        (3, 'Jazz', 0, 0),
+--        (4, 'Metal', 0, 0),
+--        (5, 'Hip-Hop', 0, 0),
+--        (6, 'RNB', 0, 0),
+--        (7, 'EDM', 0, 0),
+--        (8, 'Heavy Metal', 0, 0)
 -- ;
---
--- CREATE TABLE IF NOT EXISTS songs_albums (
---     songs_id INT,
---     album_id INT,
---     FOREIGN KEY(songs_id) REFERENCES songs(id),
---     FOREIGN KEY(album_id) REFERENCES album(id)
---     )
--- ;
 
-
-
-INSERT INTO music_genres (id, genre, total_likes, total_plays)
+INSERT INTO genres (id, genre, total_likes, total_plays)
 VALUES
-       (1, 'Rock', 0, 0),
-       (2, 'Pop', 0, 0),
-       (3, 'Jazz', 0, 0),
-       (4, 'Metal', 0, 0),
-       (5, 'Hip-Hop', 0, 0),
-       (6, 'RNB', 0, 0),
-       (7, 'EDM', 0, 0),
-       (8, 'Heavy Metal', 0, 0)
+    (1, 'Rock', 0, 0),
+    (2, 'Pop', 0, 0),
+    (3, 'Jazz', 0, 0),
+    (4, 'Metal', 0, 0),
+    (5, 'Hip-Hop', 0, 0),
+    (6, 'RNB', 0, 0),
+    (7, 'EDM', 0, 0),
+    (8, 'Heavy Metal', 0, 0)
 ;
 
 INSERT INTO songs (id, type, title, url, release_date, play_counter, likes, dis_likes)
