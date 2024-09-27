@@ -16,11 +16,6 @@ class GenreRepositoryTest {
     @Autowired
     private GenreRepository genreRepository;
 
-    @BeforeEach
-    void setUp() {
-
-    }
-
     @Test
     void findGenreByGenre() {
         genreRepository.save(new Genre("Rock"));

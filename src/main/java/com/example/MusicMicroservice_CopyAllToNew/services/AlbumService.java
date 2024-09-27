@@ -23,12 +23,6 @@ public class AlbumService {
         return albumRepository.findAll();
     }
 
-    public Album getAlbumByName(String name) {
-        Optional<Album> optionalAlbum = albumRepository.findByNameIgnoreCase(name);
-
-        return optionalAlbum.orElse(null);
-    }
-
     public boolean albumExist(String name) {
         return albumRepository.existsByNameIgnoreCase(name);
     }

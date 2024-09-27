@@ -22,12 +22,6 @@ public class ArtistService {
         return artistRepository.findAll();
     }
 
-    public Artist getArtistByName(String name) {
-        Optional<Artist> optionalArtist = artistRepository.findByNameIgnoreCase(name);
-
-        return optionalArtist.orElse(null);
-    }
-
     public boolean artistExist(String name) {
         return artistRepository.existsByNameIgnoreCase(name);
     }
