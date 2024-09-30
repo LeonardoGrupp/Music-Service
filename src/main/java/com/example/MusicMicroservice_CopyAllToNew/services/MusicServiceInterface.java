@@ -5,7 +5,6 @@ import com.example.MusicMicroservice_CopyAllToNew.entites.Album;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Artist;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Genre;
 import com.example.MusicMicroservice_CopyAllToNew.entites.Music;
-
 import java.util.List;
 
 public interface MusicServiceInterface {

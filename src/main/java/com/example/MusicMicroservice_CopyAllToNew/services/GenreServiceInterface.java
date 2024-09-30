@@ -1,7 +1,6 @@
 package com.example.MusicMicroservice_CopyAllToNew.services;
 
 import com.example.MusicMicroservice_CopyAllToNew.entites.Genre;
-
 import java.util.List;
 
 public interface GenreServiceInterface {

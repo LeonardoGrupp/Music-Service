@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS songs (
+/*CREATE TABLE IF NOT EXISTS songs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     type VARCHAR(255) NOT NULL,
     title VARCHAR(250) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS songs_albums (
     FOREIGN KEY(songs_id) REFERENCES songs(id),
     FOREIGN KEY(album_id) REFERENCES album(id)
     )
-;
+;*/
 
 INSERT INTO genres (id, genre, type, total_likes, total_plays)
 VALUES

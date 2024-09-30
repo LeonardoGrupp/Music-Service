@@ -1,16 +1,14 @@
 package com.example.MusicMicroservice_CopyAllToNew.services;
 
 import com.example.MusicMicroservice_CopyAllToNew.entites.Album;
-import com.example.MusicMicroservice_CopyAllToNew.entites.Artist;
 import com.example.MusicMicroservice_CopyAllToNew.repositories.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AlbumService {
+public class AlbumService implements AlbumServiceInterface{
 
     private AlbumRepository albumRepository;
 
