@@ -131,7 +131,6 @@ public class MusicService implements MusicServiceInterface {
             }
         }
 
-        // Check to see if album exist
         for (String albumName : musicDTO.getAlbumInputs()) {
 
             boolean albumExist = albumService.albumExist(albumName);
@@ -142,7 +141,6 @@ public class MusicService implements MusicServiceInterface {
 
         }
 
-        // Check to see if artist exist
         for (String artistName : musicDTO.getArtistInputs()) {
 
             boolean artistExist = artistService.artistExist(artistName);
