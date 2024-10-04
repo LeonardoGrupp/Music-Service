@@ -24,6 +24,14 @@ public class Genre {
         this.totalPlays = 0;
     }
 
+    public Genre(long id, String genre, String type, int totalLikes, int totalPlays) {
+        this.id = id;
+        this.genre = genre;
+        this.type = type;
+        this.totalLikes = totalLikes;
+        this.totalPlays = totalPlays;
+    }
+
     public long getId() {
         return id;
     }
